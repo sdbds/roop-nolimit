@@ -20,7 +20,6 @@ import tensorflow
 import roop.globals
 import roop.metadata
 import roop.ui as ui
-from roop.predicter import predict_image, predict_video
 from roop.processors.frame.core import get_frame_processors_modules
 from roop.utilities import has_image_extension, is_image, is_video, detect_fps, create_video, extract_frames, get_temp_frame_paths, restore_audio, create_temp, move_temp, clean_temp, normalize_output_path
 
@@ -142,8 +141,6 @@ def start() -> None:
             return
     # process image to image
     if has_image_extension(roop.globals.target_path):
-        if predict_image(roop.globals.target_path):
-            destroy()
         shutil.copy2(roop.globals.target_path, roop.globals.output_path)
         for frame_processor in get_frame_processors_modules(roop.globals.frame_processors):
             update_status('Progressing...', frame_processor.NAME)
@@ -156,8 +153,6 @@ def start() -> None:
             update_status('Processing to image failed!')
         return
     # process image to videos
-    if predict_video(roop.globals.target_path):
-        destroy()
     update_status('Creating temp resources...')
     create_temp(roop.globals.target_path)
     update_status('Extracting frames...')
