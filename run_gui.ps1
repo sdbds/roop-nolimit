@@ -9,6 +9,6 @@ $Env:HF_HOME = "./huggingface"
 
 python.exe run.py `
 --frame-processor face_swapper face_enhancer `
---execution-provider $execution-provider `
+--execution-provider=$execution-provider `
 --execution-threads=$execution-threads `
 --video-quality=$video-quality
