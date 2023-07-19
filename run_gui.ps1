@@ -1,6 +1,6 @@
 $execution_provider="cuda"
 $execution_threads=8
-$video_quality=1
+$video_quality=0
 
 Set-Location $PSScriptRoot
 .\venv\Scripts\activate
