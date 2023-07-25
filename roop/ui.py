@@ -124,7 +124,6 @@ def create_preview(parent: ctk.CTkToplevel) -> ctk.CTkToplevel:
 
     preview = ctk.CTkToplevel(parent)
     preview.withdraw()
-    preview.title('Preview')
     preview.configure()
     preview.protocol('WM_DELETE_WINDOW', lambda: toggle_preview())
     preview.resizable(width=False, height=False)
@@ -136,8 +135,6 @@ def create_preview(parent: ctk.CTkToplevel) -> ctk.CTkToplevel:
 
     preview.bind('<Up>', lambda event: update_face_reference(1))
     preview.bind('<Down>', lambda event: update_face_reference(-1))
-    preview.bind('<Right>', lambda event: update_frame(10))
-    preview.bind('<Left>', lambda event: update_frame(-10))
     return preview
 
 
@@ -224,6 +221,8 @@ def render_video_preview(video_path: str, size: Tuple[int, int], frame_number: i
 
 def toggle_preview() -> None:
     if PREVIEW.state() == 'normal':
+        PREVIEW.unbind('<Right>')
+        PREVIEW.unbind('<Left>')
         PREVIEW.withdraw()
         clear_predictor()
     elif roop.globals.source_path and roop.globals.target_path:
@@ -233,10 +232,15 @@ def toggle_preview() -> None:
 
 
 def init_preview() -> None:
+    PREVIEW.title('Preview [ ↕ Reference face ]')
     if is_image(roop.globals.target_path):
         preview_slider.pack_forget()
     if is_video(roop.globals.target_path):
         video_frame_total = get_video_frame_total(roop.globals.target_path)
+        if video_frame_total > 0:
+            PREVIEW.title('Preview [ ↕ Reference face ] [ ↔ Frame number ]')
+            PREVIEW.bind('<Right>', lambda event: update_frame(int(video_frame_total / 20)))
+            PREVIEW.bind('<Left>', lambda event: update_frame(int(video_frame_total / -20)))
         preview_slider.configure(to=video_frame_total)
         preview_slider.pack(fill='x')
         preview_slider.set(roop.globals.reference_frame_number)
