@@ -1,7 +1,8 @@
 $execution_provider="cuda"
 $execution_threads=8
-$temp_frame_quality=1
-$output_video_quality=1
+$temp_frame_quality=0
+$output_video_quality=0
+$max_memory=""
 
 Set-Location $PSScriptRoot
 .\venv\Scripts\activate
