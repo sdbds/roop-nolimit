@@ -150,7 +150,6 @@ def start() -> None:
             update_status('Processing to image failed!')
         return
     # process image to videos
-
     update_status('Creating temporary resources...')
     create_temp(roop.globals.target_path)
     # extract frames
