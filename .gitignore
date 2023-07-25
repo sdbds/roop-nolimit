@@ -4,3 +4,4 @@ temp
 __pycache__
 venv
 gfpgan
+*.mp4
